@@ -26,7 +26,6 @@ public class TicTacToeGameModeVHuman implements TicTacToeGameModes {
     public TicTacToeGameModeVHuman(TicTacToeBoard ticTacToeBoard,int startingPlayer) {
         inputStreamReader = new InputStreamReader(System.in);
         bufferedReader = new BufferedReader(inputStreamReader);
-
         this.ticTacToeBoard = ticTacToeBoard;
         this.currentState = TicTacToeGameStates.PLAYING;
         if(startingPlayer==1) {
@@ -34,7 +33,6 @@ public class TicTacToeGameModeVHuman implements TicTacToeGameModes {
         }else{
             currentPlayer = TicTacToeBoardCellStates.CIRCLE;
         }
-
     }
 
     public void playGame(){
@@ -74,7 +72,8 @@ public class TicTacToeGameModeVHuman implements TicTacToeGameModes {
     private void undoMove() {
         this.currentRow = this.lastRow;
         this.currentColumn = this.lastCol;
-        ticTacToeBoard.setStateTicTacToeBoard(this.currentRow,this.currentColumn,currentPlayer);
+        System.out.println("move undone");
+        ticTacToeBoard.setStateTicTacToeBoard(this.currentRow,this.currentColumn,TicTacToeBoardCellStates.EMPTY);
     }
     private void playerMove() {
 

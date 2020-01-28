@@ -86,7 +86,6 @@ public class TicTacToeManager implements GameManager {
                 System.out.println("TicTacToe Leaderboard");
                 System.out.println("Name:              Wins:           Losses");
             }
-
         }catch (Exception e){
             System.out.println(e);
         }

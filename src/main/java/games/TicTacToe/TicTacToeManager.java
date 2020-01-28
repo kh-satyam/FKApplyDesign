@@ -23,6 +23,7 @@ public class TicTacToeManager implements GameManager {
         System.out.println("2.Play vs Human");
         System.out.println("3.Custom TicTacToeMode");
         System.out.println("4.Play on 4V4Board");
+        System.out.println("5.View Leaderboard");
         System.out.println("");
         System.out.println("Enter your choice:");
 
@@ -81,6 +82,9 @@ public class TicTacToeManager implements GameManager {
                 ticTacToeBoard = new TicTacToeBoard(4,4);
                 this.ticTacToeGameMode = new EnhancedTicTacToeGameMode4By4VHuman(ticTacToeBoard,startingPlayer);
                 ticTacToeGameMode.playGame();
+            }else if(choice.equals("5")) {
+                System.out.println("TicTacToe Leaderboard");
+                System.out.println("Name:              Wins:           Losses");
             }
 
         }catch (Exception e){

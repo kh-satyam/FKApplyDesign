@@ -20,6 +20,8 @@ public class TicTacToeGameModeVHuman implements TicTacToeGameModes {
     public InputStreamReader inputStreamReader;
     public BufferedReader bufferedReader;
 
+    private int lastRow;
+    private int lastCol;
 
     public TicTacToeGameModeVHuman(TicTacToeBoard ticTacToeBoard,int startingPlayer) {
         inputStreamReader = new InputStreamReader(System.in);
@@ -36,26 +38,44 @@ public class TicTacToeGameModeVHuman implements TicTacToeGameModes {
     }
 
     public void playGame(){
-        ticTacToeBoard.printBoard();
-        System.out.println();
-
-        while(currentState == TicTacToeGameStates.PLAYING) {
-            playerMove();
-            updateGame();
+        try {
             ticTacToeBoard.printBoard();
-            if(currentState==TicTacToeGameStates.CROSSWON) {
-                System.out.println("X Won,Ending the Game.");
-            }else if(currentState==TicTacToeGameStates.OWON){
-                System.out.println("O Won,Ending The Game");
-            }else if(currentState==TicTacToeGameStates.DRAW){
-                System.out.println("Game Ended in a Draw.");
-            }
+            System.out.println();
 
-            currentPlayer = (currentPlayer.equals(TicTacToeBoardCellStates.CIRCLE)) ? TicTacToeBoardCellStates.CROSS:
-                    TicTacToeBoardCellStates.CIRCLE;
+            while (currentState == TicTacToeGameStates.PLAYING) {
+                playerMove();
+                updateGame();
+                ticTacToeBoard.printBoard();
+                System.out.println("Do you want to undo the last move");
+                System.out.println("1.Yes");
+                System.out.println("2.No");
+                String answer = bufferedReader.readLine();
+                int response = Integer.valueOf(answer);
+                if(response==1) {
+                    undoMove();
+                }
+                ticTacToeBoard.printBoard();
+                if (currentState == TicTacToeGameStates.CROSSWON) {
+                    System.out.println("X Won,Ending the Game.");
+                } else if (currentState == TicTacToeGameStates.OWON) {
+                    System.out.println("O Won,Ending The Game");
+                } else if (currentState == TicTacToeGameStates.DRAW) {
+                    System.out.println("Game Ended in a Draw.");
+                }
+
+                currentPlayer = (currentPlayer.equals(TicTacToeBoardCellStates.CIRCLE)) ? TicTacToeBoardCellStates.CROSS :
+                        TicTacToeBoardCellStates.CIRCLE;
+            }
+        }catch (Exception e) {
+            System.out.println(e);
         }
     }
 
+    private void undoMove() {
+        this.currentRow = this.lastRow;
+        this.currentColumn = this.lastCol;
+        ticTacToeBoard.setStateTicTacToeBoard(this.currentRow,this.currentColumn,currentPlayer);
+    }
     private void playerMove() {
 
         boolean validInput = false;
@@ -75,6 +95,8 @@ public class TicTacToeGameModeVHuman implements TicTacToeGameModes {
                     int column = Integer.valueOf(move[1]);
                     if(ticTacToeBoard.isValidMove(row,column)) {
                         validInput = true;
+                        this.lastRow = this.currentRow;
+                        this.lastCol = this.currentColumn;
                         this.currentRow = row;
                         this.currentColumn = column;
                         ticTacToeBoard.setStateTicTacToeBoard(row,column,currentPlayer);

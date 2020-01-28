@@ -43,4 +43,10 @@ public class TicTacToeBoardCell {
     public void printBoardCellForEnhancedBoard(int currBoardRow,int currBoardColumn) {
         System.out.print(currBoardRow + " " + currBoardColumn + " " + row + " "+ column + " "+ state);
     }
+
+    public void copyTicTacToeBoardCell(TicTacToeBoardCell ticTacToeBoardCell) {
+        this.setState(ticTacToeBoardCell.getState());
+        this.setRow(ticTacToeBoardCell.getRow());
+        this.setColumn(ticTacToeBoardCell.getColumn());
+    }
 }

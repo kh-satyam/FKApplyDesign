@@ -25,6 +25,30 @@ public class TicTacToeGameRules {
 
     }
 
+    public static boolean hasWon4By4(TicTacToeBoard ticTacToeBoard,int currentRow,
+                                 int currentColumn,String currentPlayer) {
+
+        return (ticTacToeBoard.getStateTicTacToeBoard(currentRow,0).equals(currentPlayer)         // 3-in-the-row
+                && ticTacToeBoard.getStateTicTacToeBoard(currentRow,1).equals(currentPlayer)
+                && ticTacToeBoard.getStateTicTacToeBoard(currentRow,2).equals(currentPlayer)
+                && ticTacToeBoard.getStateTicTacToeBoard(currentRow,3).equals(currentPlayer)
+                || ticTacToeBoard.getStateTicTacToeBoard(0,currentColumn).equals(currentPlayer)      // 3-in-the-column
+                && ticTacToeBoard.getStateTicTacToeBoard(1,currentColumn).equals(currentPlayer)
+                && ticTacToeBoard.getStateTicTacToeBoard(2,currentColumn).equals(currentPlayer)
+                && ticTacToeBoard.getStateTicTacToeBoard(3,currentColumn).equals(currentPlayer)
+                || currentRow == currentColumn            // 3-in-the-diagonal
+                && ticTacToeBoard.getStateTicTacToeBoard(0,0).equals(currentPlayer)
+                && ticTacToeBoard.getStateTicTacToeBoard(1,1).equals(currentPlayer)
+                && ticTacToeBoard.getStateTicTacToeBoard(2,2).equals(currentPlayer)
+                && ticTacToeBoard.getStateTicTacToeBoard(3,3).equals(currentPlayer)
+                || currentRow + currentColumn == 2  // 3-in-the-opposite-diagonal
+                && ticTacToeBoard.getStateTicTacToeBoard(0,3).equals( currentPlayer)
+                && ticTacToeBoard.getStateTicTacToeBoard(1,1).equals( currentPlayer)
+                && ticTacToeBoard.getStateTicTacToeBoard(2,1).equals(currentPlayer)
+                && ticTacToeBoard.getStateTicTacToeBoard(3,0).equals(currentPlayer));
+
+    }
+
     public static boolean isDraw(TicTacToeBoard ticTacToeBoard) {
         return ticTacToeBoard.noEmptyCellPresent();
     }
@@ -78,5 +102,45 @@ public class TicTacToeGameRules {
             }
         }
         return isDraw;
+    }
+
+//    public static boolean hasWonNByN(EnhancedTicTacToeBoard enhancedTicTacToeBoard,String currentPlayer,int dimensions) {
+//        boolean hasWon = true;
+//        if(dimensions==3) {
+//            TicTacToeBoard ticTacToeBoard = enhancedTicTacToeBoard.getTicTacToeBoard()[0][0];
+//            hasWon = hasWon3By3(ticTacToeBoard,currentPlayer);
+//        } else{
+//
+//        }
+//        return hasWon;
+//    }
+//
+//    public static boolean hasWonNByN(EnhancedTicTacToeBoard enhancedTicTacToeBoard,int boardRow,int boardColumn,
+//        String currentPlayer,int dimensions) {
+//        if(dimensions==3) {
+//            return hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[boardRow][boardColumn],currentPlayer);
+//        }else{
+//            int newDimensions = dimensions/3;
+//            boolean hasWon = true;
+//            for(int row = 0;row < dimensions ; row+=newDimensions) {
+//
+//                int column = getColumnOfEnhancedTicTacToeBoard(boardColumn,newDimensions,dimensions);
+//                EnhancedTicTacToeBoard enhancedTicTacToeBoard1 = enhancedTicTacToeBoard.getPartialBoard(
+//                        enhancedTicTacToeBoard,
+//                        row,
+//                        column,newDimensions
+//                );
+//                hasWonNByN(enhancedTicTacToeBoard1,)
+//            }
+//            return hasWon;
+//        }
+//    }
+
+    public static int getColumnOfEnhancedTicTacToeBoard(int column,int lowerDimensions,int dimensions) {
+        int col = 0;
+        while(col+lowerDimensions<dimensions) {
+            col += lowerDimensions;
+        }
+        return col;
     }
 }

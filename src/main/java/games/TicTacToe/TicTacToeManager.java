@@ -2,10 +2,7 @@ package games.TicTacToe;
 
 import games.GameManager;
 import games.TicTacToe.board.TicTacToeBoard;
-import games.TicTacToe.gameModes.EnhancedTicTacToeGameMode9By9VHuman;
-import games.TicTacToe.gameModes.TicTacToeGameModeVComputer;
-import games.TicTacToe.gameModes.TicTacToeGameModeVHuman;
-import games.TicTacToe.gameModes.TicTacToeGameModes;
+import games.TicTacToe.gameModes.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -25,6 +22,7 @@ public class TicTacToeManager implements GameManager {
         System.out.println("1.Play vs Computer");
         System.out.println("2.Play vs Human");
         System.out.println("3.Custom TicTacToeMode");
+        System.out.println("4.Play on 4V4Board");
         System.out.println("");
         System.out.println("Enter your choice:");
 
@@ -72,6 +70,16 @@ public class TicTacToeManager implements GameManager {
                 choice = bufferedReader.readLine();
                 int startingPlayer = Integer.valueOf(choice);
                 this.ticTacToeGameMode = new EnhancedTicTacToeGameMode9By9VHuman(rows,columns,startingPlayer);
+                ticTacToeGameMode.playGame();
+            }else if(choice.equals("4")) {
+                System.out.println("Who would like to go First : X or O");
+                System.out.println("1.X");
+                System.out.println("2.O");
+                System.out.println("");
+                choice = bufferedReader.readLine();
+                int startingPlayer = Integer.valueOf(choice);
+                ticTacToeBoard = new TicTacToeBoard(4,4);
+                this.ticTacToeGameMode = new EnhancedTicTacToeGameMode4By4VHuman(ticTacToeBoard,startingPlayer);
                 ticTacToeGameMode.playGame();
             }
 

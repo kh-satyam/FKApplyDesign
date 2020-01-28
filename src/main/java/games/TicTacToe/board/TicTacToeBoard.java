@@ -19,6 +19,10 @@ public class TicTacToeBoard {
         }
     }
 
+    public TicTacToeBoardCell[][] getBoard() {
+        return board;
+    }
+
     public void printBoard() {
         int ROWS = board.length;
         int COLUMNS = board[0].length;
@@ -84,6 +88,15 @@ public class TicTacToeBoard {
                 TicTacToeBoardCell ticTacToeBoardCell = board[rowNum][col];
                 ticTacToeBoardCell.printBoardCellForEnhancedBoard(currBoardRow,currBoardColumn);
                 if(col!=board[0].length-1) System.out.print("|");
+            }
+        }
+    }
+
+    public void copyTicTacBoard(TicTacToeBoard ticTacToeBoard) {
+        for(int i=0;i<ticTacToeBoard.getBoard().length;i++){
+            for(int j=0;j<ticTacToeBoard.getBoard()[0].length;j++){
+                TicTacToeBoardCell ticTacToeBoardCell = ticTacToeBoard.getBoard()[i][j];
+                this.board[i][j].copyTicTacToeBoardCell(ticTacToeBoardCell);
             }
         }
     }

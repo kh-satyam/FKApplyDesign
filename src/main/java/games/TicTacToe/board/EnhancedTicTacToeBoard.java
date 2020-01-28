@@ -58,4 +58,15 @@ public class EnhancedTicTacToeBoard {
         return isValid;
     }
 
+    public EnhancedTicTacToeBoard getPartialBoard(EnhancedTicTacToeBoard enhancedTicTacToeBoard,int dimensions,int startRow,int startCol) {
+        EnhancedTicTacToeBoard newEnhancedTicTacToeBoard1 = new EnhancedTicTacToeBoard(dimensions,dimensions);
+        for(int i=0;i<dimensions;i++){
+            for(int j=0;j<dimensions;j++){
+                newEnhancedTicTacToeBoard1.getTicTacToeBoard()[i][j].copyTicTacBoard(
+                        enhancedTicTacToeBoard.getTicTacToeBoard()[startRow+dimensions][startCol+dimensions]
+                );
+            }
+        }
+        return newEnhancedTicTacToeBoard1;
+    }
 }

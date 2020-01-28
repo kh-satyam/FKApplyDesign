@@ -77,4 +77,14 @@ public class TicTacToeBoard {
         }
         return optionalTicTacToeBoardCell;
     }
+
+    public void printRow(int currBoardRow,int currBoardColumn,int rowNum) {
+        if (rowNum>=0 && rowNum < board.length) {
+            for(int col=0;col<board[0].length;col++){
+                TicTacToeBoardCell ticTacToeBoardCell = board[rowNum][col];
+                ticTacToeBoardCell.printBoardCellForEnhancedBoard(currBoardRow,currBoardColumn);
+                if(col!=board[0].length-1) System.out.print("|");
+            }
+        }
+    }
 }

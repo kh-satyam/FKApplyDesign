@@ -1,5 +1,6 @@
 package games.TicTacToe;
 
+import games.TicTacToe.board.EnhancedTicTacToeBoard;
 import games.TicTacToe.board.TicTacToeBoard;
 
 public class TicTacToeGameRules {
@@ -26,5 +27,56 @@ public class TicTacToeGameRules {
 
     public static boolean isDraw(TicTacToeBoard ticTacToeBoard) {
         return ticTacToeBoard.noEmptyCellPresent();
+    }
+
+    public static boolean hasWon3By3(TicTacToeBoard ticTacToeBoard,String currentPlayer) {
+        boolean hasWon = false;
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++) {
+                hasWon = hasWon || hasWon(ticTacToeBoard,i,j,currentPlayer);
+            }
+        }
+        return hasWon;
+    }
+
+    public static boolean hasWon9By9(EnhancedTicTacToeBoard enhancedTicTacToeBoard,int boardRow,int boardColumn
+                ,String currentPlayer) {
+
+        return (
+                hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[boardRow][0],currentPlayer) &&
+                        hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[boardRow][1],currentPlayer) &&
+                        hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[boardRow][2],currentPlayer)
+                )
+                ||
+                (
+                        hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[0][boardColumn],currentPlayer) &&
+                        hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[1][boardColumn],currentPlayer) &&
+                        hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[2][boardColumn],currentPlayer)
+                )
+                ||
+                (
+                        boardRow==boardColumn &&
+                                hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[0][0],currentPlayer) &&
+                                hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[1][1],currentPlayer) &&
+                                hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[2][2],currentPlayer)
+                        )
+                ||
+                (
+                        boardRow+boardColumn==2 &&
+                                hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[0][2],currentPlayer) &&
+                                hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[1][1],currentPlayer) &&
+                                hasWon3By3(enhancedTicTacToeBoard.getTicTacToeBoard()[2][0],currentPlayer)
+                        );
+    }
+
+    public static boolean isDraw9By9(EnhancedTicTacToeBoard enhancedTicTacToeBoard) {
+
+        boolean isDraw = false;
+        for(int i=0;i<3;i++) {
+            for(int j=0;j<3;j++){
+                isDraw = isDraw || TicTacToeGameRules.isDraw(enhancedTicTacToeBoard.getTicTacToeBoard()[i][j]);
+            }
+        }
+        return isDraw;
     }
 }

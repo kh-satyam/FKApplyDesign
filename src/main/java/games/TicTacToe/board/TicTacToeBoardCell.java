@@ -40,4 +40,7 @@ public class TicTacToeBoardCell {
     public void printBoardCell () {
         System.out.print(row + " "+ column + " "+ state);
     }
+    public void printBoardCellForEnhancedBoard(int currBoardRow,int currBoardColumn) {
+        System.out.print(currBoardRow + " " + currBoardColumn + " " + row + " "+ column + " "+ state);
+    }
 }

@@ -1,5 +1,6 @@
 import games.GameManager;
 import games.TicTacToe.TicTacToeManager;
+import games.TicTacToe.gameModes.TicTacToeGameModes;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

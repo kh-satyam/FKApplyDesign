@@ -2,7 +2,6 @@ package games.TicTacToe.gameModes;
 
 
 import games.TicTacToe.TicTacToeGameRules;
-import games.TicTacToe.board.EnhancedTicTacToeBoard;
 import games.TicTacToe.board.TicTacToeBoard;
 import games.TicTacToe.states.TicTacToeBoardCellStates;
 import games.TicTacToe.states.TicTacToeGameStates;
@@ -105,7 +104,7 @@ public class EnhancedTicTacToeGameMode4By4VHuman implements TicTacToeGameModes {
     }
 
     public boolean isDraw() {
-        return TicTacToeGameRules.isDraw(ticTacToeBoard);
+        return TicTacToeGameRules.isDrawGeneric(ticTacToeBoard);
     }
 }
 

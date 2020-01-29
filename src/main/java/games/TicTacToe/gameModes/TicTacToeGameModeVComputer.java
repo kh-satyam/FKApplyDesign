@@ -6,6 +6,7 @@ import games.TicTacToe.board.TicTacToeBoardCell;
 import games.TicTacToe.gameModes.TicTacToeGameModes;
 import games.TicTacToe.states.TicTacToeBoardCellStates;
 import games.TicTacToe.states.TicTacToeGameStates;
+import games.TicTacToe.statistics.TicTacToeGameStats;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,33 +14,44 @@ import java.util.Optional;
 
 public class TicTacToeGameModeVComputer implements TicTacToeGameModes {
 
-    private TicTacToeBoard ticTacToeBoard;
-    private int currentState;
-    private String currentPlayer;
-    private String humanPlayer;
+    TicTacToeBoard ticTacToeBoard;
+    private int gridRows;
+    private int gridColumns;
     private int currentRow;
     private int currentColumn;
-
-    public InputStreamReader inputStreamReader;
-    public BufferedReader bufferedReader;
-
-
     private int lastRow;
-    private int lastCol;
+    private int lastColumn;
+    private String currentPlayer;
+    private int dimensions;
+    private int currentState;
+    private String playerName;
+    private String playerSign;
+    private InputStreamReader inputStreamReader;
+    private BufferedReader bufferedReader;
+    private TicTacToeGameStats ticTacToeGameStats;
 
-    public TicTacToeGameModeVComputer(TicTacToeBoard ticTacToeBoard,boolean goFirst,String humanPlayer) {
+    public TicTacToeGameModeVComputer(int numRows,int numColumns,
+                                      String playerName,
+                                      String startingPlayer,
+                                      boolean playerIsStarting,
+                                      TicTacToeGameStats ticTacToeGameStats) {
+
         inputStreamReader = new InputStreamReader(System.in);
         bufferedReader = new BufferedReader(inputStreamReader);
-
-        this.ticTacToeBoard = ticTacToeBoard;
+        ticTacToeBoard = new TicTacToeBoard(numRows,numColumns);
+        this.gridRows = numRows;
+        this.gridColumns = numColumns;
+        this.currentPlayer = startingPlayer;
+        this.dimensions = numColumns;
         this.currentState = TicTacToeGameStates.PLAYING;
-        if(goFirst) {
-            currentPlayer = humanPlayer;
+        this.playerName = playerName;
+        if(playerIsStarting){
+            this.playerSign = startingPlayer;
         }else{
-            currentPlayer = humanPlayer.equals(TicTacToeBoardCellStates.CIRCLE)?TicTacToeBoardCellStates.CROSS:
-                        TicTacToeBoardCellStates.CIRCLE;
+            this.playerSign = startingPlayer.equals(TicTacToeBoardCellStates.CIRCLE) ? TicTacToeBoardCellStates.CROSS:
+                    TicTacToeBoardCellStates.CIRCLE;
         }
-        this.humanPlayer = humanPlayer;
+        this.ticTacToeGameStats = ticTacToeGameStats;
     }
 
     public void playGame(){
@@ -51,22 +63,30 @@ public class TicTacToeGameModeVComputer implements TicTacToeGameModes {
                 updateGame();
                 System.out.println("Updated Board");
                 ticTacToeBoard.printBoard();
-                System.out.println("Do you want to undo the last move");
-                System.out.println("1.Yes");
-                System.out.println("2.No");
-                String answer = bufferedReader.readLine();
-                int response = Integer.valueOf(answer);
-                if (response == 1) {
-                    undoMove();
+                if(currentPlayer.equals(playerSign)) {
+                    System.out.println("Do you want to undo the last move");
+                    System.out.println("1.Yes");
+                    System.out.println("2.No");
+                    String answer = bufferedReader.readLine();
+                    int response = Integer.valueOf(answer);
+                    if (response == 1){
+                        undoMove();
+                        ticTacToeBoard.printBoard();
+                        continue;
+                    }
+                    ticTacToeBoard.printBoard();
                 }
-                ticTacToeBoard.printBoard();
                 if (currentState == TicTacToeGameStates.CROSSWON) {
-                    if (currentPlayer.equals(humanPlayer))
-                        System.out.println("You Won,Ending the Game.");
+                    if (currentPlayer.equals(playerSign))
+                      {
+                          System.out.println("You Won,Ending the Game.");
+                          ticTacToeGameStats.addStats(playerName);
+                      }
+
                     else
                         System.out.println("Computer won the game");
                 } else if (currentState == TicTacToeGameStates.OWON) {
-                    if (currentPlayer.equals(humanPlayer))
+                    if (currentPlayer.equals(playerSign))
                         System.out.println("You Won,Ending the Game.");
                     else
                         System.out.println("Computer won the game");
@@ -83,9 +103,6 @@ public class TicTacToeGameModeVComputer implements TicTacToeGameModes {
     }
 
     private void undoMove() {
-        this.currentRow = this.lastRow;
-        this.currentColumn = this.lastCol;
-        System.out.println("move undone");
         ticTacToeBoard.setStateTicTacToeBoard(this.currentRow,this.currentColumn,TicTacToeBoardCellStates.EMPTY);
     }
 
@@ -93,8 +110,8 @@ public class TicTacToeGameModeVComputer implements TicTacToeGameModes {
 
         boolean validInput = false;
 
-        if(currentPlayer.equals(humanPlayer)) {
-            System.out.println("Player:" + humanPlayer + ",Enter your move:row and column");
+        if(currentPlayer.equals(playerSign)) {
+            System.out.println("Player:" + playerSign + ",Enter your move:row and column");
             do{
                 try{
 
@@ -105,7 +122,7 @@ public class TicTacToeGameModeVComputer implements TicTacToeGameModes {
                         if(ticTacToeBoard.isValidMove(row,column)) {
                             validInput = true;
                             this.lastRow = this.currentRow;
-                            this.lastCol = this.currentColumn;
+                            this.lastColumn = this.currentColumn;
                             this.currentRow = row;
                             this.currentColumn = column;
                             ticTacToeBoard.setStateTicTacToeBoard(row,column,currentPlayer);
@@ -145,10 +162,11 @@ public class TicTacToeGameModeVComputer implements TicTacToeGameModes {
     }
 
     private boolean hasWon() {
-        return TicTacToeGameRules.hasWon(ticTacToeBoard,currentRow,currentColumn,currentPlayer);
+        return TicTacToeGameRules.hasWonGeneric(ticTacToeBoard,gridRows,gridColumns,0,
+                0,dimensions,currentPlayer);
     }
 
     public boolean isDraw() {
-        return TicTacToeGameRules.isDraw(ticTacToeBoard);
+        return TicTacToeGameRules.isDrawGeneric(ticTacToeBoard);
     }
 }

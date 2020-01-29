@@ -30,7 +30,6 @@ public class TicTacToeGameRules {
 
     public static boolean hasWon3By3Generic(TicTacToeBoard ticTacToeBoard,int currentRow,
                                             int currentColumn,String currentPlayer) {
-        System.out.println("hasWon3By3Generic:"+currentRow + " " + currentColumn);
         int startRow = currentRow/3 * 3;
         int startColumn = currentColumn/3 *3;
         return (ticTacToeBoard.getStateTicTacToeBoard(currentRow,startColumn).equals(currentPlayer)         // 3-in-the-row
@@ -53,7 +52,6 @@ public class TicTacToeGameRules {
                                              int currentColumn,String currentPlayer,
                                              int dimensions) {
 
-        System.out.println("hasWonNByNGeneric called for cell: " + currentRow + " " + currentColumn + " with dimensions: "+ dimensions);
         return
                 (hasWonGeneric(ticTacToeBoard,34,-1,currentRow,0,dimensions,
                         currentPlayer) &&

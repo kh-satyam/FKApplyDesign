@@ -1,5 +1,7 @@
 FK Apply DEsign <br/>
 
+Class Diagrams link:https://drive.google.com/open?id=1_b2aMfwCYHERuyNNEAtvU6l-U5XAZ-BJ
+
 This project is build using maven build tool. <br/>
 Run it using mvn clean package or mvn clean install <br/>
  <br/>
@@ -16,3 +18,4 @@ Current Features: <br/>
 5.Hexagonal TicTacToe <br/>
  <br/>
 To run any game,plug the corresponding GameManager.
+

@@ -1,5 +1,7 @@
 FK Apply DEsign <br/>
 
+Checkout the dev branch for the project details and design document.
+
 Class Diagrams link:https://drive.google.com/open?id=1_b2aMfwCYHERuyNNEAtvU6l-U5XAZ-BJ
 
 This project is build using maven build tool. <br/>
